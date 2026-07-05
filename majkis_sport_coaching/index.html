@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Majkis Sport Coaching | Indywidualne Przygotowanie Sportowców</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Główne kolory i fonty */
+        :root {
+            --bg-dark: #000000;
+            --bg-card: #111111;
+            --gold: #BFA35C; 
+            --white: #ffffff;
+            --text-gray: #a0a0a0;
+            --font-main: 'Oswald', sans-serif;
+            --font-text: 'Montserrat', sans-serif;
+        }
+
+        /* Reset i ustawienia globalne */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        /* Blokada przewijania w poziomie (lewo-prawo) */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--white);
+            font-family: var(--font-text);
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-padding-top: 100px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-main);
+            text-transform: uppercase;
+        }
+
+        /* Sekcja nagłówka (Header) */
+        header {
+            background-color: rgba(0, 0, 0, 0.95);
+            border-bottom: 2px solid var(--gold);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo-nav img {
+            height: 100px;
+            display: block;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            font-family: var(--font-main);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--gold);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--white);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* Sekcja Startowa (Hero) */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            margin-top: 50px;
+        }
+
+        .hero-background-logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('majkis_logo.png'); 
+            background-size: 45%; 
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.08; 
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        #hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        #hero h1 span {
+            color: var(--gold);
+        }
+
+        #hero p {
+            color: var(--text-gray);
+            max-width: 600px;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--gold);
+            color: var(--bg-dark);
+            padding: 15px 35px;
+            font-family: var(--font-main);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            border: 2px solid var(--gold);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--gold);
+        }
+
+        /* Ogólne ustawienia sekcji */
+        section {
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2.section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        h2.section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--gold);
+            margin: 15px auto 0;
+        }
+
+        /* Sekcja Oferta */
+        .offer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .offer-card {
+            background-color: var(--bg-card);
+            padding: 40px 30px;
+            border: 1px solid rgba(191, 163, 92, 0.1);
+            border-top: 4px solid var(--gold);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .offer-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--gold);
+        }
+
+        .offer-card p {
+            color: var(--text-gray);
+        }
+
+        /* Sekcja Zespół */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .team-member {
+            background-color: var(--bg-card);
+            padding: 40px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .team-photo-container {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid var(--gold);
+            overflow: hidden;
+            margin-bottom: 25px;
+            background-color: #222;
+        }
+
+        .team-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-member h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .team-member p.role {
+            color: var(--gold);
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .team-member p.description {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Sekcja Osiągnięcia */
+        .achievements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .achievement-item {
+            background-color: var(--bg-card);
+            padding: 25px 30px;
+            display: flex;
+            align-items: center;
+            border-left: 5px solid var(--gold);
+        }
+
+        .achievement-year {
+            font-family: var(--font-main);
+            font-size: 2.5rem;
+            color: var(--gold);
+            min-width: 120px;
+        }
+
+        .achievement-text h4 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .achievement-text p {
+            color: var(--text-gray);
+        }
+
+        /* Sekcja Galeria (Lightbox) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 5px;
+            height: 250px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Modal Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90vh;
+            border: 3px solid var(--gold);
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 3rem;
+            color: var(--white);
+            cursor: pointer;
+            font-family: sans-serif;
+        }
+
+        .close-lightbox:hover {
+            color: var(--gold);
+        }
+
+        /* Stopka i Kontakt */
+        footer {
+            background-color: #050505;
+            padding: 60px 20px 30px;
+            border-top: 1px solid rgba(191, 163, 92, 0.3);
+            text-align: center;
+        }
+
+        footer h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        footer p {
+            color: var(--text-gray);
+            margin-bottom: 10px;
+        }
+
+        .social-icons {
+            margin-top: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .social-icons a {
+            font-size: 2rem;
+            color: var(--white);
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold);
+            transform: translateY(-5px);
+        }
+
+        /* Responsywność dla telefonów */
+        @media (max-width: 768px) {
+            html {
+                scroll-padding-top: 70px;
+            }
+
+            /* Mniejsze nagłówki na telefonach i łamanie długich słów */
+            h2.section-title {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+
+            h1, h2, h3, h4, p {
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                hyphens: auto;
+            }
+
+            header {
+                padding: 10px 20px;
+            }
+
+            .logo-nav img {
+                height: 40px;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.98);
+                padding: 30px;
+                border-top: 1px solid var(--gold);
+                gap: 20px;
+                text-align: center;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            #hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .achievement-item {
+                flex-direction: column;
+                text-align: left;
+                align-items: flex-start;
+                padding: 20px;
+            }
+
+            .achievement-year {
+                margin-bottom: 10px;
+                font-size: 2rem;
+            }
+            
+            .hero-background-logo {
+                background-size: 80%;
+            }
+            
+            .gallery-item {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-nav">
+            <img src="majkis_logo_long.png" alt="Majkis Sport Coaching Logo">
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="#hero">Start</a></li>
+                <li><a href="#oferta">Oferta</a></li>
+                <li><a href="#zespol">Zespół</a></li>
+                <li><a href="#osiagniecia">Osiągnięcia</a></li>
+                <li><a href="#galeria">Galeria</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
+            </ul>
+        </nav>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="hero-background-logo"></div>
+        <div class="hero-content">
+            <h1>BĄDŹ <span>SILNIEJSZY.</span> BĄDŹ <span>SZYBSZY.</span></h1>
+            <p>Profesjonalne przygotowanie motoryczne i indywidualne prowadzenie sportowców przez ekspertów. Wznieś swoje wyniki na wyższy poziom.</p>
+            <a href="#kontakt" class="btn">ROZPOCZNIJ WSPÓŁPRACĘ</a>
+        </div>
+    </section>
+
+    <section id="oferta">
+        <h2 class="section-title">Co oferujemy</h2>
+        <div class="offer-grid">
+            <div class="offer-card">
+                <h3>Przygotowanie Motoryczne</h3>
+                <p>Indywidualnie dobrane plany treningowe budujące siłę, moc, szybkość i wytrzymałość pod specyfikę Twojej dyscypliny sportowej.</p>
+            </div>
+            <div class="offer-card">
+                <h3>Return to Play</h3>
+                <p>Bezpieczny powrót do sportu po kontuzjach. Łączymy wiedzę z zakresu fizjoterapii i treningu siłowego, abyś wrócił mocniejszy.</p>
+            </div>
+            <div class="offer-card">
+                <h3>Analiza i Pomiary</h3>
+                <p>Testy funkcjonalne, pomiary siły i mocy, optymalizacja biomechaniki ruchu w celu eliminacji słabych ogniw i zapobiegania urazom.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="zespol">
+        <h2 class="section-title">POZNAJ TRENERÓW</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="team-photo-container">
+                    <img src="trener1.png" alt="Jan Kowalski" class="team-photo">
+                </div>
+                <h3>Jan Kowalski</h3>
+                <p class="role">Head Coach</p>
+                <p class="description">Specjalista od przygotowania motorycznego w sportach walki. Były zawodnik kadry narodowej.</p>
+            </div>
+            <div class="team-member">
+                <div class="team-photo-container">
+                    <img src="trener2.png" alt="Anna Wiśniewska" class="team-photo">
+                </div>
+                <h3>Anna Wiśniewska</h3>
+                <p class="role">Fizjoterapeuta sportowy</p>
+                <p class="description">Zajmuje się prewencją urazów i odnową biologiczną, pomagając wrócić do pełni sprawności.</p>
+            </div>
+            <div class="team-member">
+                <div class="team-photo-container">
+                    <img src="trener3.png" alt="Piotr Nowak" class="team-photo">
+                </div>
+                <h3>Piotr Nowak</h3>
+                <p class="role">Trener Przygotowania Fizycznego</p>
+                <p class="description">Ekspert w budowaniu siły maksymalnej i mocy, pasjonat optymalizacji ruchu.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="osiagniecia">
+        <h2 class="section-title">Z kim współpracowaliśmy</h2>
+        <div class="achievements-list">
+            <div class="achievement-item">
+                <div class="achievement-year">2025</div>
+                <div class="achievement-text">
+                    <h4>Mistrzostwo Polski w Piłce Nożnej</h4>
+                    <p>Kompleksowe przygotowanie motoryczne drużyny w drodze po medal. 30% spadek liczby urazów mięśniowych.</p>
+                </div>
+            </div>
+            <div class="achievement-item">
+                <div class="achievement-year">2024</div>
+                <div class="achievement-text">
+                    <h4>Jan "Żelazny" Nowak - Pas KSW</h4>
+                    <p>Indywidualne przygotowanie fizyczne, budowa wytrzymałości siłowej oraz precyzyjne zbijanie wagi.</p>
+                </div>
+            </div>
+            <div class="achievement-item">
+                <div class="achievement-year">2023</div>
+                <div class="achievement-text">
+                    <h4>Klub Lekkoatletyczny "Sprint"</h4>
+                    <p>Złote medale na Halowych Mistrzostwach Polski. Współpraca w zakresie generowania mocy na krótkich dystansach.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeria">
+        <h2 class="section-title">NASZE WSPÓŁPRACE W AKCJI</h2>
+        <div class="gallery-grid">
+            <a href="#" class="gallery-item" data-large="trening1.png">
+                <img src="trening1.png">
+            </a>
+            <a href="#" class="gallery-item" data-large="trening2.png">
+                <img src="trening2.png">
+            </a>
+            <a href="#" class="gallery-item" data-large="trening3.png">
+                <img src="trening3.png">
+            </a>
+            <a href="#" class="gallery-item" data-large="treningi4.png">
+                <img src="treningi4.png">
+            </a>
+        </div>
+    </section>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox" id="close-lightbox">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" src="">
+    </div>
+
+    <footer id="kontakt">
+        <h3>SKONTAKTUJ SIĘ Z NAMI</h3>
+        <p>Zadzwoń do nas, aby omówić swoje cele i umówić się na pierwszą konsultację.</p>
+        <p>Email: kontakt@majkis.com</p>
+        <p>Telefon: +48 123 456 789</p>
+        <div class="social-icons">
+            <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <p style="font-size: 0.8rem;">&copy; 2024 Majkis Sport Coaching. Wszelkie prawa zastrzeżone.</p>
+    </footer> 
+    
+    <script>
+        // Hamburger Menu
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links ul');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Zamykanie menu mobilnego po kliknięciu linku
+        document.querySelectorAll('.nav-links ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
+            });
+        });
+
+        // Lightbox dla Galerii
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeLightboxBtn = document.getElementById('close-lightbox');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const largeImgUrl = item.getAttribute('data-large');
+                lightboxImg.src = largeImgUrl;
+                lightbox.classList.add('active');
+            });
+        });
+
+        closeLightboxBtn.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => { lightboxImg.src = ''; }, 300); // Czyszczenie po animacji
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target !== lightboxImg) {
+                lightbox.classList.remove('active');
+                setTimeout(() => { lightboxImg.src = ''; }, 300);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Galeria | Stadnina Pod Dębami</title>
+<meta name="description" content="Galeria zdjęć — nasza stadnina, konie, jeźdźcy i okolice." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .gallery-section {
+    padding: 56px 0 96px;
+    background: var(--cream-soft);
+  }
+
+  /* FILTERS */
+  .filters {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .filter-btn {
+    padding: 10px 22px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+  .filter-btn:hover {
+    border-color: var(--copper);
+    color: var(--copper-dark);
+  }
+  .filter-btn.is-active {
+    background: var(--navy-900);
+    border-color: var(--navy-900);
+    color: #fff;
+  }
+
+  /* GRID */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 220px;
+    gap: 12px;
+  }
+  .gallery-item {
+    overflow: hidden;
+    border-radius: var(--radius);
+    position: relative;
+    cursor: zoom-in;
+    background: var(--navy-700);
+    transition: opacity var(--transition), transform var(--transition);
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .gallery-item:hover img { transform: scale(1.06); }
+  .gallery-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(15, 29, 46, 0.7));
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+  .gallery-item:hover::after { opacity: 1; }
+
+  /* Layout variants for visual interest */
+  .gallery-item.tall { grid-row: span 2; }
+  .gallery-item.wide { grid-column: span 2; }
+
+  .gallery-item__label {
+    position: absolute;
+    bottom: 16px;
+    left: 18px;
+    right: 18px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all var(--transition);
+  }
+  .gallery-item:hover .gallery-item__label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .gallery-item__zoom {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all var(--transition);
+  }
+  .gallery-item:hover .gallery-item__zoom {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .gallery-item__zoom svg { width: 16px; height: 16px; }
+
+  /* Filtered out */
+  .gallery-item.is-hidden {
+    display: none;
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 18, 28, 0.96);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .lightbox.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .lightbox__inner {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .lightbox__image-wrap {
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox__image {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .lightbox__caption {
+    color: rgba(255,255,255,0.9);
+    font-size: 14px;
+    text-align: center;
+    max-width: 600px;
+    padding: 0 16px;
+  }
+  .lightbox__counter {
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    margin-top: 4px;
+  }
+
+  .lightbox__close,
+  .lightbox__nav {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 2;
+  }
+  .lightbox__close {
+    top: -8px;
+    right: -8px;
+    width: 44px;
+    height: 44px;
+  }
+  .lightbox__close svg { width: 18px; height: 18px; }
+  .lightbox__nav {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+  }
+  .lightbox__nav svg { width: 22px; height: 22px; }
+  .lightbox__nav--prev { left: -70px; }
+  .lightbox__nav--next { right: -70px; }
+  .lightbox__close:hover,
+  .lightbox__nav:hover {
+    background: var(--copper);
+    border-color: var(--copper);
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+    display: none;
+  }
+  .empty-state.is-visible {
+    display: block;
+  }
+  .empty-state svg {
+    width: 48px;
+    height: 48px;
+    color: var(--copper);
+    opacity: 0.5;
+    margin: 0 auto 16px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 200px;
+    }
+    .lightbox__nav--prev { left: 10px; }
+    .lightbox__nav--next { right: 10px; }
+  }
+
+  @media (max-width: 768px) {
+    .gallery-section { padding: 32px 0 64px; }
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 180px;
+      gap: 8px;
+    }
+    .gallery-item.tall { grid-row: auto; }
+    .gallery-item.wide { grid-column: auto; }
+
+    .filter-btn { padding: 8px 16px; font-size: 11px; letter-spacing: 0.12em; }
+    .filters { margin-bottom: 32px; gap: 6px; }
+
+    .lightbox__close { top: 10px; right: 10px; width: 38px; height: 38px; }
+    .lightbox__nav { width: 40px; height: 40px; }
+    .lightbox__nav svg { width: 18px; height: 18px; }
+  }
+
+  @media (max-width: 480px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 240px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="container">
+    <nav class="nav" aria-label="Główna nawigacja">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="logo" class="logo__icon">
+        <span class="logo__text">
+          <span class="logo__name">STADNINA</span>
+          <span class="logo__tag">POD DĘBAMI</span>
+        </span>
+      </a>
+
+      <ul class="nav__menu" id="navMenu">
+        <li><a href="index.html" class="nav__link">Strona główna</a></li>
+        <li><a href="index.html#o-nas" class="nav__link">O nas</a></li>
+        <li><a href="jazdy-konne.html" class="nav__link">Jazdy konne</a></li>
+        <li><a href="pensjonat.html" class="nav__link">Pensjonat dla koni</a></li>
+        <li><a href="galeria.html" class="nav__link active">Galeria</a></li>
+        <li><a href="index.html#kontakt" class="nav__link">Kontakt</a></li>
+      </ul>
+
+      <a href="index.html#kontakt" class="btn btn--primary btn-header">
+        Rezerwacja jazdy
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="12" height="11" rx="1"/>
+          <path d="M2 6 H14 M6 2 V4 M10 2 V4"/>
+        </svg>
+      </a>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Otwórz menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<section class="page-title">
+  <div class="container">
+    <div class="page-title__eyebrow">— Galeria —</div>
+    <h1 class="page-title__heading">Miejsce, do którego chce się wracać</h1>
+    <p class="page-title__sub">Zajrzyj do nas — zobacz naszą stadninę, konie, jeźdźców i otaczające nas tereny.</p>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="container">
+
+    <!-- FILTERS -->
+    <div class="filters" role="tablist" aria-label="Filtry galerii">
+      <button class="filter-btn is-active" data-filter="all">Wszystkie</button>
+      <button class="filter-btn" data-filter="stadnina">Stadnina</button>
+      <button class="filter-btn" data-filter="konie">Konie</button>
+      <button class="filter-btn" data-filter="jazdy">Jazdy</button>
+      <button class="filter-btn" data-filter="wnetrza">Wnętrza</button>
+    </div>
+
+    <!-- GRID -->
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item wide" data-category="stadnina">
+        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80" alt="Stadnina z lotu ptaka" loading="lazy">
+        <span class="gallery-item__label">Nasza stadnina z lotu ptaka</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item" data-category="jazdy">
+        <img src="https://images.unsplash.com/photo-1566251037378-5e04e3bec343?auto=format&fit=crop&w=800&q=80" alt="Jeźdźcy o zachodzie słońca" loading="lazy">
+        <span class="gallery-item__label">Jazda o zachodzie słońca</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item tall" data-category="konie">
+        <img src="https://images.unsplash.com/photo-1534773728080-33d31da27ae5?auto=format&fit=crop&w=800&q=80" alt="Portret konia" loading="lazy">
+        <span class="gallery-item__label">Portret naszego konia</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item" data-category="wnetrza">
+        <img src="https://images.unsplash.com/photo-1576692192914-9abed71b3ef9?auto=format&fit=crop&w=800&q=80" alt="Wnętrze świetlicy" loading="lazy">
+        <span class="gallery-item__label">Świetlica dla jeźdźców</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item" data-category="konie">
+        <img src="https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=800&q=80" alt="Koń i jeździec" loading="lazy">
+        <span class="gallery-item__label">Wyjątkowa więź</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item" data-category="jazdy">
+        <img src="https://images.unsplash.com/photo-1613085411234-9c83af5562d8?auto=format&fit=crop&w=800&q=80" alt="Trening na ujeżdżalni" loading="lazy">
+        <span class="gallery-item__label">Trening na ujeżdżalni</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item tall" data-category="stadnina">
+        <img src="https://images.unsplash.com/photo-1600757490188-1eb2bab4cf4a?auto=format&fit=crop&w=800&q=80" alt="Stajnie" loading="lazy">
+        <span class="gallery-item__label">Nasze stajnie</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item wide" data-category="konie">
+        <img src="https://images.unsplash.com/photo-1698076019037-07ce5f9cc59f?auto=format&fit=crop&w=1200&q=80" alt="Konie na padoku" loading="lazy">
+        <span class="gallery-item__label">Konie na porannym padoku</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item" data-category="jazdy">
+        <img src="https://images.unsplash.com/photo-1586424222752-5f87e73aaf5c?auto=format&fit=crop&w=800&q=80" alt="Galop w terenie" loading="lazy">
+        <span class="gallery-item__label">Galop w terenie</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item" data-category="wnetrza">
+        <img src="https://images.unsplash.com/photo-1694792651411-2412d8f235fb?auto=format&fit=crop&w=800&q=80" alt="Wnętrze stajni" loading="lazy">
+        <span class="gallery-item__label">Wnętrze stajni</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item" data-category="stadnina">
+        <img src="https://images.unsplash.com/photo-1694885143306-3dfea504b032?auto=format&fit=crop&w=800&q=80" alt="Padok z końmi" loading="lazy">
+        <span class="gallery-item__label">Nasze padoki</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+
+      <div class="gallery-item" data-category="konie">
+        <img src="https://images.unsplash.com/photo-1518484233463-f6ddb68400ec?auto=format&fit=crop&w=800&q=80" alt="Biały koń" loading="lazy">
+        <span class="gallery-item__label">Marzanna — nasza ulubienica</span>
+        <span class="gallery-item__zoom"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14 14"/><path d="M5 7 H9 M7 5 V9"/></svg></span>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState">
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="28" cy="28" r="18"/>
+        <path d="M42 42 L54 54"/>
+        <path d="M22 28 H34 M28 22 V34"/>
+      </svg>
+      <p>Brak zdjęć w tej kategorii.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <div class="lightbox__inner">
+    <button class="lightbox__close" id="lbClose" aria-label="Zamknij">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3 L13 13 M13 3 L3 13"/>
+      </svg>
+    </button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" aria-label="Poprzednie">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 2 L4 8 L10 14"/>
+      </svg>
+    </button>
+    <div class="lightbox__image-wrap">
+      <img class="lightbox__image" id="lbImage" src="" alt="">
+    </div>
+    <button class="lightbox__nav lightbox__nav--next" id="lbNext" aria-label="Następne">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2 L12 8 L6 14"/>
+      </svg>
+    </button>
+    <div>
+      <p class="lightbox__caption" id="lbCaption"></p>
+      <p class="lightbox__counter" id="lbCounter"></p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="logo" class="logo__icon">
+        <span class="logo__text">
+          <span class="logo__name">STADNINA</span>
+          <span class="logo__tag">POD DĘBAMI</span>
+        </span>
+      </a>
+
+      <ul class="footer__nav">
+        <li><a href="index.html">Strona główna</a></li>
+        <li><a href="index.html#o-nas">O nas</a></li>
+        <li><a href="jazdy-konne.html">Jazdy konne</a></li>
+        <li><a href="pensjonat.html">Pensjonat dla koni</a></li>
+        <li><a href="galeria.html">Galeria</a></li>
+        <li><a href="index.html#kontakt">Kontakt</a></li>
+      </ul>
+
+      <div class="footer__socials">
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.86.24-1.45 1.48-1.45H16.5V4.45C16.2 4.4 15.3 4.3 14.3 4.3c-2.1 0-3.55 1.28-3.55 3.63V10.5H8.2v3h2.55V21h2.75z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ====== MOBILE NAV ======
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('navMenu');
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      toggle.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ====== GALLERY FILTERS ======
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const galleryItems = document.querySelectorAll('.gallery-item');
+  const emptyState = document.getElementById('emptyState');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      const filter = btn.dataset.filter;
+
+      let visibleCount = 0;
+      galleryItems.forEach(item => {
+        const show = filter === 'all' || item.dataset.category === filter;
+        item.classList.toggle('is-hidden', !show);
+        if (show) visibleCount++;
+      });
+      emptyState.classList.toggle('is-visible', visibleCount === 0);
+    });
+  });
+
+  // ====== LIGHTBOX ======
+  const lightbox = document.getElementById('lightbox');
+  const lbImage = document.getElementById('lbImage');
+  const lbCaption = document.getElementById('lbCaption');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbClose = document.getElementById('lbClose');
+  const lbPrev = document.getElementById('lbPrev');
+  const lbNext = document.getElementById('lbNext');
+  let currentIndex = 0;
+  let visibleItems = [];
+
+  function getVisibleItems() {
+    return Array.from(galleryItems).filter(item => !item.classList.contains('is-hidden'));
+  }
+
+  function openLightbox(index) {
+    visibleItems = getVisibleItems();
+    if (visibleItems.length === 0) return;
+    currentIndex = index;
+    updateLightbox();
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function updateLightbox() {
+    const item = visibleItems[currentIndex];
+    if (!item) return;
+    const img = item.querySelector('img');
+    const label = item.querySelector('.gallery-item__label');
+    lbImage.src = img.src.replace('w=800', 'w=1600').replace('w=1200', 'w=1800');
+    lbImage.alt = img.alt;
+    lbCaption.textContent = label ? label.textContent : img.alt;
+    lbCounter.textContent = `${currentIndex + 1} / ${visibleItems.length}`;
+  }
+
+  function navigate(dir) {
+    currentIndex = (currentIndex + dir + visibleItems.length) % visibleItems.length;
+    updateLightbox();
+  }
+
+  galleryItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const visible = getVisibleItems();
+      const idx = visible.indexOf(item);
+      if (idx !== -1) openLightbox(idx);
+    });
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', () => navigate(-1));
+  lbNext.addEventListener('click', () => navigate(1));
+
+  // Click outside image to close
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+  });
+</script>
+
+</body>
+</html>

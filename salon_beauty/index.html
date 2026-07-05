@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glow Bar — Studio paznokci, rzęs i brwi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=DM+Sans:wght@400;500;600&family=Space+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFFBF8;
+    --panel:#FFF3EE;
+    --panel-2:#FCE8E0;
+    --coral:#E8674A;
+    --coral-deep:#C94E33;
+    --blush:#F2A9BE;
+    --peach:#FCD9BE;
+    --plum:#3A1F2B;
+    --plum-dim:#93727A;
+    --line:#F0DACE;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--plum);
+    font-family:'DM Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  h1,h2,h3{
+    font-family:'Bricolage Grotesque', sans-serif;
+    font-weight:600;
+    line-height:1.1;
+    letter-spacing:-0.01em;
+  }
+  .wrap{max-width:1140px; margin:0 auto; padding:0 32px;}
+  :focus-visible{outline:2px solid var(--coral); outline-offset:3px;}
+
+  .pill{
+    display:inline-flex; align-items:center;
+    background:var(--panel); color:var(--coral-deep);
+    font-size:12px; font-weight:500;
+    padding:6px 14px; border-radius:100px;
+    border:1px solid var(--line);
+  }
+
+  /* ---------- Sticky wrapper for topbar + header ---------- */
+  .site-top{
+    position:sticky; top:0; z-index:50;
+  }
+
+  /* ---------- Top utility bar ---------- */
+  .topbar{
+    background:var(--plum); color:#F3E3DD;
+    font-size:12.5px;
+  }
+  .topbar .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:9px 32px; max-width:1140px;
+  }
+  .topbar .right{display:flex; gap:18px;}
+  .topbar a:hover{color:var(--blush);}
+
+  /* ---------- Nav ---------- */
+  header{
+    position:relative;
+    background:rgba(255,251,248,0.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:grid; grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    padding:20px 32px; max-width:1140px; margin:0 auto;
+  }
+  .logo{font-family:'Bricolage Grotesque', sans-serif; font-size:20px; font-weight:700;}
+  .logo span{color:var(--coral);}
+  .nav-links{display:flex; gap:28px; font-size:14px; color:var(--plum-dim); justify-content:center;}
+  .nav-links a:hover{color:var(--coral-deep);}
+  .nav-cta{
+    justify-self:end;
+    background:var(--coral); color:#FFF6F2;
+    font-size:13px; font-weight:500;
+    padding:10px 20px; border-radius:100px;
+  }
+  .nav-cta:hover{background:var(--coral-deep);}
+  .nav-toggle{display:none;}
+
+  @media (max-width:780px){
+    nav{grid-template-columns:1fr auto;}
+    .nav-links{
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; align-items:flex-start;
+      background:var(--cream);
+      padding:20px 32px; gap:14px;
+      border-bottom:1px solid var(--line);
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(-6px);
+      transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+      z-index:40;
+    }
+    .nav-links.open{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0);
+    }
+    .nav-toggle{display:block; background:none; border:none; color:var(--plum); font-size:22px; cursor:pointer;}
+    .nav-cta{display:none;}
+.topbar .wrap{
+      flex-direction:column;
+      gap:4px;
+      align-items:center;
+      text-align:center;
+      padding:8px 24px;
+    }
+    .topbar .right{gap:16px;}
+  }
+
+  /* ---------- Hero — full-width editorial statement ---------- */
+  .hero{padding:76px 32px 0; max-width:1140px; margin:0 auto; text-align:center;}
+  .hero h1{
+    font-size:clamp(40px, 7vw, 76px);
+    max-width:820px; margin:0 auto 22px;
+  }
+  .hero h1 .hl{color:var(--coral);}
+  .hero p{
+    color:var(--plum-dim); font-size:17px;
+    max-width:460px; margin:0 auto 30px;
+  }
+  .hero-tags{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:52px;}
+  .hero-tags a.pill:hover{border-color:var(--coral); color:var(--coral-deep);}
+
+  .hero-strip{
+    display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+    padding-bottom:60px;
+  }
+  .hero-card{
+    width:180px; aspect-ratio:3/4; border-radius:22px;
+    display:flex; align-items:flex-end; padding:18px;
+  }
+  .hero-card span{
+    font-family:'Space Mono', monospace; font-size:12px;
+    background:rgba(255,255,255,0.7); padding:5px 10px; border-radius:100px;
+  }
+  .hc1{background:var(--peach); color:#8A4F1E;}
+  .hc2{background:var(--coral); color:#FFF3EE; margin-top:26px;}
+  .hc3{background:var(--blush); color:#8A2F4C;}
+  .hc4{background:var(--panel-2); color:#93727A; margin-top:26px;}
+  .hc5{background:var(--panel); color:#93727A;}
+
+  @media (max-width:780px){.hero{padding-top:56px;}}
+
+  /* ---------- Section shell ---------- */
+  section{padding:76px 32px;}
+  .section-head{max-width:600px; margin:0 auto 44px; text-align:center;}
+  .section-head .pill{margin-bottom:14px;}
+  .section-head h2{font-size:clamp(28px,3.2vw,38px);}
+  .section-head p{color:var(--plum-dim); margin-top:10px; font-size:15px;}
+
+  /* ---------- Services — editorial menu list ---------- */
+  .menu-list{max-width:800px; margin:0 auto;}
+  .menu-row{
+    display:grid; grid-template-columns:36px 1fr auto;
+    gap:20px; align-items:start;
+    padding:26px 24px; border-radius:16px;
+  }
+  .menu-row:nth-child(odd){background:var(--panel);}
+  .menu-row .idx{font-family:'Space Mono', monospace; font-size:13px; color:var(--coral-deep); padding-top:3px;}
+  .menu-row h3{font-size:19px; margin-bottom:6px;}
+  .menu-row p{color:var(--plum-dim); font-size:14px; max-width:420px;}
+  .menu-row .price-col{text-align:right;}
+  .menu-row .price{font-weight:600; font-size:18px; display:block;}
+  .menu-row .from{font-size:12px; color:var(--plum-dim); display:block; margin-bottom:6px;}
+  .menu-row .go{font-size:13px; color:var(--coral-deep); font-weight:500;}
+
+  @media (max-width:600px){
+    .menu-row{grid-template-columns:1fr; text-align:left;}
+    .menu-row .price-col{text-align:left; margin-top:8px;}
+  }
+
+  /* ---------- Visit journey — timeline ---------- */
+  .journey{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    max-width:1000px; margin:0 auto; position:relative;
+  }
+  .journey::before{
+    content:""; position:absolute; top:19px; left:6%; right:6%;
+    height:1px; background:var(--line);
+  }
+  .step{text-align:center; padding:0 12px; position:relative;}
+  .step .dot{
+    width:38px; height:38px; border-radius:50%; background:var(--coral);
+    color:#FFF3EE; font-family:'Space Mono', monospace; font-size:13px;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 18px; position:relative; z-index:1;
+  }
+  .step h3{font-size:16px; margin-bottom:6px;}
+  .step p{font-size:13px; color:var(--plum-dim);}
+
+  @media (max-width:700px){
+    .journey{grid-template-columns:1fr; gap:28px;}
+    .journey::before{display:none;}
+  }
+
+  /* ---------- Team ---------- */
+  .team-scroll{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:18px;
+  }
+  .stylist-card{
+    background:var(--panel); border-radius:20px; overflow:hidden; border:1px solid var(--line);
+  }
+  .stylist-photo{aspect-ratio:1/1; background:var(--panel-2); display:flex; align-items:center; justify-content:center;}
+  .stylist-info{padding:14px 16px 18px;}
+  .stylist-info h3{font-size:15px; margin-bottom:3px;}
+  .stylist-info .role{font-family:'Space Mono', monospace; font-size:10.5px; color:var(--coral-deep); text-transform:uppercase;}
+
+  @media (max-width:700px){.team-scroll{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---------- Gallery — filmstrip ---------- */
+  .film-strip{
+    display:grid; grid-template-columns:repeat(6,1fr); gap:12px;
+  }
+  .film-cell{
+    aspect-ratio:1/1; border-radius:16px;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  @media (max-width:760px){.film-strip{grid-template-columns:repeat(3,1fr);}}
+
+  /* ---------- Testimonials — duo ---------- */
+  .duo{
+    display:grid; grid-template-columns:1fr 1fr; gap:36px;
+    max-width:960px; margin:0 auto;
+  }
+  .quote-card{position:relative; padding-top:12px;}
+  .quote-card .mark{
+    font-family:'Bricolage Grotesque', sans-serif; font-size:64px; color:var(--blush);
+    line-height:0.5; display:block; margin-bottom:6px;
+  }
+  .quote-card p{font-size:16px; margin-bottom:14px;}
+  .quote-card cite{font-family:'Space Mono', monospace; font-size:11px; color:var(--plum-dim); text-transform:uppercase;}
+
+  @media (max-width:700px){.duo{grid-template-columns:1fr; gap:32px;}}
+
+  /* ---------- Footer ---------- */
+  footer{padding:52px 32px 32px; border-top:1px solid var(--line);}
+  .foot-row{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    flex-wrap:wrap; gap:32px; margin-bottom:36px;
+  }
+  .foot-row .logo{margin-bottom:8px;}
+  .foot-row .addr{color:var(--plum-dim); font-size:14px; line-height:1.8;}
+  .foot-links{display:flex; gap:28px; font-size:14px;}
+  .foot-links a:hover{color:var(--coral-deep);}
+  .foot-bottom{
+    border-top:1px solid var(--line); padding-top:20px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-size:12px; color:var(--plum-dim);
+  }
+
+@media (max-width:760px){
+    section{padding:56px 24px;}
+    footer{padding:44px 24px 28px;}
+    .foot-row{flex-direction:column; gap:24px; margin-bottom:28px;}
+    .foot-links{flex-direction:column; gap:12px;}
+    .foot-bottom{flex-direction:column; gap:8px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="site-top">
+  <div class="topbar">
+    <div class="wrap">
+      <span>pon–pt 9:00–20:00 · sob 9:00–16:00</span>
+      <div class="right">
+        <a href="tel:+48600111222">600 111 222</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <nav>
+      <div class="logo">Glow<span>Bar</span></div>
+      <div class="nav-links" id="navLinks">
+        <a href="#uslugi">Usługi</a>
+        <a href="#wizyta">Jak to działa</a>
+        <a href="#zespol">Zespół</a>
+        <a href="#galeria">Galeria</a>
+      </div>
+      <a class="nav-cta" href="#kontakt">Kontakt</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Otwórz menu" aria-expanded="false">☰</button>
+    </nav>
+  </header>
+</div>
+
+<main>
+  <section class="hero" id="home">
+    <h1>Twój blask,<br><span class="hl">dwadzieścia minut</span> od teraz</h1>
+    <p>Manicure hybrydowy, stylizacja rzęs i regulacja brwi — bez czekania w kolejce i bez kompromisów w jakości.</p>
+    <div class="hero-tags">
+      <a class="pill" href="#uslugi">Paznokcie</a>
+      <a class="pill" href="#uslugi">Rzęsy</a>
+      <a class="pill" href="#uslugi">Brwi</a>
+      <a class="pill" href="#kontakt">Kontakt</a>
+    </div>
+    <div class="hero-strip" aria-hidden="true">
+      <div class="hero-card hc1"><span>Manicure</span></div>
+      <div class="hero-card hc2"><span>Rzęsy 1:1</span></div>
+      <div class="hero-card hc3"><span>Brwi</span></div>
+      <div class="hero-card hc4"><span>Pedicure</span></div>
+      <div class="hero-card hc5"><span>Laminacja</span></div>
+    </div>
+  </section>
+
+  <section id="uslugi">
+    <div class="section-head">
+      <span class="pill">Usługi</span>
+      <h2>Cennik w formie, którą łatwo przeczytać</h2>
+    </div>
+    <div class="menu-list">
+      <div class="menu-row">
+        <span class="idx">01</span>
+        <div>
+          <h3>Manicure hybrydowy</h3>
+          <p>Skrócenie, opracowanie skórek, dwie warstwy koloru, top bez zdzieru.</p>
+        </div>
+        <div class="price-col"><span class="from">od</span><span class="price">80 zł</span><a class="go" href="#kontakt">Zarezerwuj →</a></div>
+      </div>
+      <div class="menu-row">
+        <span class="idx">02</span>
+        <div>
+          <h3>Przedłużanie paznokci na żelu</h3>
+          <p>Modelowanie długości i kształtu, wzmocnienie, wybrany kolor.</p>
+        </div>
+        <div class="price-col"><span class="from">od</span><span class="price">150 zł</span><a class="go" href="#kontakt">Zarezerwuj →</a></div>
+      </div>
+      <div class="menu-row">
+        <span class="idx">03</span>
+        <div>
+          <h3>Stylizacja rzęs 1:1</h3>
+          <p>Naturalny efekt, precyzyjny dobór długości do naturalnej rzęsy.</p>
+        </div>
+        <div class="price-col"><span class="from">od</span><span class="price">130 zł</span><a class="go" href="#kontakt">Zarezerwuj →</a></div>
+      </div>
+      <div class="menu-row">
+        <span class="idx">04</span>
+        <div>
+          <h3>Rzęsy objętościowe</h3>
+          <p>Metoda kępkowa, gęsty i wyraźny efekt, utrzymanie do 4 tygodni.</p>
+        </div>
+        <div class="price-col"><span class="from">od</span><span class="price">170 zł</span><a class="go" href="#kontakt">Zarezerwuj →</a></div>
+      </div>
+      <div class="menu-row">
+        <span class="idx">05</span>
+        <div>
+          <h3>Regulacja i henna brwi</h3>
+          <p>Depilacja woskiem, korekta kształtu, henna w wybranym odcieniu.</p>
+        </div>
+        <div class="price-col"><span class="from">od</span><span class="price">60 zł</span><a class="go" href="#kontakt">Zarezerwuj →</a></div>
+      </div>
+      <div class="menu-row">
+        <span class="idx">06</span>
+        <div>
+          <h3>Laminacja brwi</h3>
+          <p>Uczesanie i utrwalenie włosków, efekt pełniejszych brwi na 6 tygodni.</p>
+        </div>
+        <div class="price-col"><span class="from">od</span><span class="price">90 zł</span><a class="go" href="#kontakt">Zarezerwuj →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="wizyta">
+    <div class="section-head">
+      <span class="pill">Jak to działa</span>
+      <h2>Twoja wizyta krok po kroku</h2>
+    </div>
+    <div class="journey">
+      <div class="step"><div class="dot">1</div><h3>Rezerwacja</h3><p>Wybierasz usługę i wolny termin online lub telefonicznie.</p></div>
+      <div class="step"><div class="dot">2</div><h3>Konsultacja</h3><p>Rozmawiamy o efekcie, kształcie i kolorze przed zabiegiem.</p></div>
+      <div class="step"><div class="dot">3</div><h3>Zabieg</h3><p>Sam zabieg trwa od 25 do 90 minut, zależnie od usługi.</p></div>
+      <div class="step"><div class="dot">4</div><h3>Efekt</h3><p>Wychodzisz z gotowym efektem i wskazówkami na utrzymanie.</p></div>
+    </div>
+  </section>
+
+  <section id="zespol">
+    <div class="section-head">
+      <span class="pill">Zespół</span>
+      <h2>Poznaj stylistki Glow Bar</h2>
+    </div>
+    <div class="team-scroll">
+      <div class="stylist-card">
+        <div class="stylist-photo"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C94E33" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+        <div class="stylist-info"><h3>Ania Kowalczyk</h3><span class="role">Nail artist</span></div>
+      </div>
+      <div class="stylist-card">
+        <div class="stylist-photo"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C94E33" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+        <div class="stylist-info"><h3>Kasia Wiśniewska</h3><span class="role">Stylistka rzęs</span></div>
+      </div>
+      <div class="stylist-card">
+        <div class="stylist-photo"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C94E33" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+        <div class="stylist-info"><h3>Julia Mazur</h3><span class="role">Specjalistka brwi</span></div>
+      </div>
+      <div class="stylist-card">
+        <div class="stylist-photo"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C94E33" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+        <div class="stylist-info"><h3>Ola Zielińska</h3><span class="role">Nail artist juniorka</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <div class="section-head">
+      <span class="pill">Galeria</span>
+      <h2>Zobacz nasze prace</h2>
+    </div>
+    <div class="film-strip">
+      <div class="film-cell" style="background:var(--peach);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8A4F1E" stroke-width="1.2"><circle cx="12" cy="12" r="8"/></svg></div>
+      <div class="film-cell" style="background:var(--blush);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8A2F4C" stroke-width="1.2"><path d="M4 12h16M12 4v16"/></svg></div>
+      <div class="film-cell" style="background:var(--panel-2);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#93727A" stroke-width="1.2"><rect x="5" y="5" width="14" height="14" rx="7"/></svg></div>
+      <div class="film-cell" style="background:var(--coral);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFF3EE" stroke-width="1.2"><path d="M3 12h18"/></svg></div>
+      <div class="film-cell" style="background:var(--panel);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#93727A" stroke-width="1.2"><circle cx="12" cy="12" r="7"/></svg></div>
+      <div class="film-cell" style="background:var(--peach);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8A4F1E" stroke-width="1.2"><path d="M6 12l4 4 8-9"/></svg></div>
+    </div>
+  </section>
+
+  <section id="kontakt">
+    <div class="duo">
+      <div class="quote-card">
+        <span class="mark">"</span>
+        <p>Pierwszy raz mam paznokcie, które wyglądają tak samo dobrze po trzech tygodniach jak pierwszego dnia.</p>
+        <cite>— Natalia S., klientka od 2022</cite>
+      </div>
+      <div class="quote-card">
+        <span class="mark">"</span>
+        <p>Umówiłam się rano na wieczór tego samego dnia. Rzęsy trzymały się idealnie przez cały miesiąc.</p>
+        <cite>— Marta W., klientka od 2023</cite>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div>
+        <div class="logo">Glow<span>Bar</span></div>
+        <p class="addr">ul. Słoneczna 5, 61-002 Poznań</p>
+      </div>
+      <div class="foot-links">
+        <a href="tel:+48600111222">600 111 222</a>
+        <a href="mailto:kontakt@glowbar.pl">kontakt@glowbar.pl</a>
+        <a href="#">Instagram</a>
+        <a href="#">TikTok</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Glow Bar</span>
+      <span>Projekt i wykonanie strony na zamówienie</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+</body>
+</html>

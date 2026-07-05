@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stadnina Pod Dębami — Z pasji do koni</title>
+<meta name="description" content="Stadnina Pod Dębami to miejsce, gdzie konie i ludzie tworzą wyjątkową więź. Jazdy konne, pensjonat dla koni, profesjonalna stajnia." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* ========== HERO ========== */
+  .hero {
+    position: relative;
+    background: var(--navy-900);
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    min-height: 560px;
+    align-items: center;
+    position: relative;
+  }
+  .hero__content {
+    padding: 80px 32px 80px 0;
+    max-width: 540px;
+    animation: fadeUp 1s ease both;
+    position: relative;
+    z-index: 2;
+  }
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4.8vw, 4rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+  .hero__title span {
+    color: var(--copper-light);
+    font-style: italic;
+    font-weight: 400;
+    display: block;
+  }
+  .hero__desc {
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 36px;
+    line-height: 1.65;
+    max-width: 440px;
+  }
+  .hero__buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .hero__image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    /* Zaczyna mniej więcej w połowie kontenera i ciągnie się do prawej krawędzi okna */
+    left: 50%;
+    background: url('https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+    z-index: 1;
+  }
+  .hero__image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--navy-900) 0%, transparent 30%);
+  }
+  /* Decorative horse silhouette behind text */
+  /* .hero::before {
+    content: '';
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 380px;
+    height: 380px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 80 Q15 70 18 60 Q14 55 16 48 Q10 45 12 38 Q8 32 14 28 Q18 20 28 22 Q35 18 42 22 Q50 18 56 26 Q62 22 68 28 Q74 32 70 40 Q76 45 72 52 Q78 58 74 65 Q80 72 76 80 L20 80 Z" fill="%23ffffff" opacity="0.04"/></svg>') no-repeat center/contain;
+    pointer-events: none;
+  } */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ========== FEATURES ========== */
+  .features {
+    background: var(--cream);
+    padding: 72px 0;
+  }
+  .features__grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 24px;
+  }
+  .feature {
+    text-align: center;
+    padding: 0 8px;
+  }
+  .feature__icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 22px;
+    color: var(--copper);
+  }
+  .feature__icon svg { width: 100%; height: 100%; }
+  .feature__title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+  }
+  .feature__desc {
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.55;
+  }
+
+  /* ========== TWO COLUMN OFFERS ========== */
+  .offers {
+    padding: 16px 0 0;
+    background: var(--cream-soft);
+  }
+  .offers__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .offer-block {
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 340px;
+    box-shadow: var(--shadow-card);
+  }
+  .offer-block--dark { background: var(--navy-900); color: #fff; }
+  .offer-block--light { background: #fff; color: var(--text-dark); }
+
+  .offer-block__body {
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .offer-block__eyebrow {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 0.18em;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .offer-block--dark .offer-block__eyebrow { color: #fff; }
+  .offer-block--light .offer-block__eyebrow { color: var(--text-dark); }
+
+  .offer-block__divider {
+    width: 50px;
+    height: 2px;
+    background: var(--copper);
+    margin-bottom: 18px;
+  }
+  .offer-block__desc {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .offer-block--dark .offer-block__desc { color: rgba(255,255,255,0.85); }
+  .offer-block--light .offer-block__desc { color: var(--text-soft); }
+
+  .offer-list {
+    list-style: none;
+    margin-bottom: 24px;
+  }
+  .offer-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 14px;
+  }
+  .offer-list svg {
+    width: 18px;
+    height: 18px;
+    color: var(--copper);
+    flex-shrink: 0;
+  }
+
+  .offer-block__img {
+    position: relative;
+    overflow: hidden;
+  }
+  .offer-block__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .offer-block:hover .offer-block__img img { transform: scale(1.05); }
+
+  /* ========== ABOUT / GALLERY PREVIEW ========== */
+  .about {
+    padding: 64px 0 96px;
+    background: var(--cream-soft);
+  }
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr 2.4fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .about__text { max-width: 340px; }
+  .about__eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .about__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 18px;
+    color: var(--text-dark);
+  }
+  .about__desc {
+    font-size: 15px;
+    color: var(--text-soft);
+    margin-bottom: 28px;
+    line-height: 1.7;
+  }
+
+  .about__gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .about__gallery a {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    display: block;
+  }
+  .about__gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .about__gallery a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 29, 46, 0);
+    transition: background var(--transition);
+  }
+  .about__gallery a:hover img { transform: scale(1.06); }
+  .about__gallery a:hover::after { background: rgba(15, 29, 46, 0.2); }
+
+  /* ========== TESTIMONIALS ========== */
+  .testimonials {
+    background: var(--navy-900);
+    color: #fff;
+    padding: 72px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .testimonials__head {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .testimonials__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.2rem);
+    font-weight: 500;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .testimonials__title::before,
+  .testimonials__title::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: rgba(255,255,255,0.3);
+  }
+
+  .testimonials__slider {
+    position: relative;
+    padding: 0 56px;
+  }
+  .testimonials__track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .testimonial {
+    text-align: center;
+    padding: 0 12px;
+    display: none;
+    flex-direction: column;
+    height: 100%;
+  }
+  .testimonial.is-active {
+    display: flex;
+  }
+  .testimonial__quote-mark {
+    font-family: var(--font-display);
+    font-size: 50px;
+    color: var(--copper);
+    line-height: 0.5;
+    margin-bottom: 14px;
+  }
+  .testimonial__text {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.65;
+    margin-bottom: 20px;
+    font-style: italic;
+    flex-grow: 1;
+  }
+  .testimonial__author {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .testimonial__avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background: var(--copper);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .testimonial__name {
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+  }
+
+  .slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+  }
+  .slider-arrow:hover {
+    background: var(--copper);
+    border-color: var(--copper);
+  }
+  .slider-arrow svg { width: 16px; height: 16px; }
+  .slider-arrow--prev { left: 0; }
+  .slider-arrow--next { right: 0; }
+
+  /* ========== CONTACT BANNER ========== */
+  .contact-banner {
+    position: relative;
+    background: var(--cream);
+    padding: 56px 0 64px;
+    overflow: hidden;
+  }
+  /* .contact-banner::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 32%;
+    background:
+      linear-gradient(to right, rgba(243, 238, 229, 0) 60%, rgba(243, 238, 229, 1) 100%),
+      url('https://images.unsplash.com/photo-1576020799627-aeac74d58064?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;
+    opacity: 0.7;
+  } */
+  .contact-banner > .container { position: relative; z-index: 1; }
+
+  .contact-banner__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .contact-col__title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: var(--text-dark);
+  }
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text-soft);
+  }
+  .contact-row svg {
+    width: 16px;
+    height: 16px;
+    color: var(--copper);
+    flex-shrink: 0;
+  }
+  a.contact-row { transition: color var(--transition); }
+  a.contact-row:hover { color: var(--copper); }
+
+  .info-col__icon {
+    width: 24px;
+    height: 24px;
+    color: var(--copper);
+    margin-bottom: 12px;
+  }
+  .info-col__title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-dark);
+  }
+  .info-col__desc {
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+  .info-col__link {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--copper);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap var(--transition);
+  }
+  .info-col__link:hover { gap: 10px; }
+  .info-col__link svg { width: 14px; height: 14px; }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 1024px) {
+    .features__grid { grid-template-columns: repeat(3, 1fr); gap: 40px 24px; }
+    .hero__grid { grid-template-columns: 1fr; }
+    .hero__content { padding: 64px 0; max-width: none; }
+.hero__image {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      margin-left: 0;
+      z-index: 1;
+    }
+    .hero__image::before { 
+      /* Używamy delikatnego przyciemnienia/gradientu, aby biały tekst był czytelny na tle konia */
+      background: linear-gradient(180deg, var(--navy-900) 0%, rgba(0, 0, 0, 0.4) 100%); 
+    }
+    .offers__grid { grid-template-columns: 1fr; }
+    .about__grid { grid-template-columns: 1fr; }
+    .about__gallery { grid-template-columns: repeat(4, 1fr); }
+    .testimonials__track { grid-template-columns: 1fr; gap: 20px; }
+    .testimonial { display: none; }
+    .testimonial.is-active { display: flex; }
+    .contact-banner__grid { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+    .contact-banner::before { width: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .features { padding: 56px 0; }
+    .features__grid { grid-template-columns: repeat(2, 1fr); gap: 36px 16px; }
+
+    .offer-block {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .offer-block__body { padding: 28px 24px; }
+    .offer-block__img { aspect-ratio: 16/10; }
+
+    .about { padding: 40px 0 64px; }
+    .about__gallery { grid-template-columns: repeat(2, 1fr); }
+
+    .testimonials__slider { padding: 0 44px; }
+    .slider-arrow { width: 32px; height: 32px; }
+
+    .contact-banner__grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .features__grid { grid-template-columns: 1fr; gap: 28px; }
+    .hero__buttons .btn { flex: 1; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="header">
+  <div class="container">
+    <nav class="nav" aria-label="Główna nawigacja">
+      <a href="index.html" class="logo" aria-label="Stadnina Pod Dębami">
+        <img src="logo.png" alt="logo" class="logo__icon">
+        <span class="logo__text">
+          <span class="logo__name">STADNINA</span>
+          <span class="logo__tag">POD DĘBAMI</span>
+        </span>
+      </a>
+
+      <ul class="nav__menu" id="navMenu">
+        <li><a href="index.html" class="nav__link active">Strona główna</a></li>
+        <li><a href="#o-nas" class="nav__link">O nas</a></li>
+        <li><a href="jazdy-konne.html" class="nav__link">Jazdy konne</a></li>
+        <li><a href="pensjonat.html" class="nav__link">Pensjonat dla koni</a></li>
+        <li><a href="galeria.html" class="nav__link">Galeria</a></li>
+        <li><a href="#kontakt" class="nav__link">Kontakt</a></li>
+      </ul>
+
+      <a href="#kontakt" class="btn btn--primary btn-header">
+        Rezerwacja jazdy
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="12" height="11" rx="1"/>
+          <path d="M2 6 H14 M6 2 V4 M10 2 V4"/>
+        </svg>
+      </a>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Otwórz menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero__grid">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          Z pasji do koni.
+          <span>Z myślą o Tobie.</span>
+        </h1>
+        <p class="hero__desc">Stadnina Pod Dębami to miejsce, gdzie konie i ludzie tworzą wyjątkową więź.</p>
+        <div class="hero__buttons">
+          <a href="jazdy-konne.html" class="btn btn--primary">
+            Zarezerwuj jazdę
+            <svg class="arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+            </svg>
+          </a>
+          <a href="pensjonat.html" class="btn btn--outline-light">
+            Pensjonat dla koni
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7 L8 2 L14 7 V14 H2 Z"/>
+              <path d="M6 14 V10 H10 V14"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero__image" aria-hidden="true"></div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="features">
+  <div class="container">
+    <div class="features__grid">
+      <div class="feature reveal">
+        <div class="feature__icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 12 Q14 18 14 28 Q14 42 22 50 L26 46 Q20 40 20 30 Q20 22 24 18"/>
+            <path d="M44 12 Q50 18 50 28 Q50 42 42 50 L38 46 Q44 40 44 30 Q44 22 40 18"/>
+            <path d="M24 16 Q32 12 40 16"/>
+          </svg>
+        </div>
+        <h3 class="feature__title">Doświadczenie</h3>
+        <p class="feature__desc">Lata pracy z końmi i zaufanie klientów.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="feature__icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 8 L38 24 L56 24 L42 34 L48 52 L32 42 L16 52 L22 34 L8 24 L26 24 Z"/>
+          </svg>
+        </div>
+        <h3 class="feature__title">Bezpieczeństwo</h3>
+        <p class="feature__desc">Wykwalifikowana kadra i spokojne, dobrze wyszkolone konie.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="feature__icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="32" cy="20" r="8"/>
+            <path d="M14 52 Q14 36 32 36 Q50 36 50 52"/>
+            <path d="M44 22 L48 26 L52 18"/>
+          </svg>
+        </div>
+        <h3 class="feature__title">Indywidualne podejście</h3>
+        <p class="feature__desc">Dopasowujemy ofertę do Twoich potrzeb i poziomu zaawansowania.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="feature__icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 28 L32 12 L54 28 V52 H10 Z"/>
+            <path d="M22 52 V36 H42 V52"/>
+            <line x1="32" y1="36" x2="32" y2="52"/>
+          </svg>
+        </div>
+        <h3 class="feature__title">Profesjonalna stajnia</h3>
+        <p class="feature__desc">Nowoczesne warunki, codzienna opieka i najwyższe standardy.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="feature__icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 56 V32"/>
+            <path d="M32 36 C20 36 12 28 12 14 C26 14 32 22 32 36"/>
+            <path d="M32 44 C44 44 52 36 52 22 C38 22 32 30 32 44"/>
+          </svg>
+        </div>
+        <h3 class="feature__title">Blisko natury</h3>
+        <p class="feature__desc">Piękne tereny, świeże powietrze i cisza, której szukasz.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="feature__icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="32" cy="32" r="22"/>
+            <path d="M20 32 L28 40 L44 22"/>
+          </svg>
+        </div>
+        <h3 class="feature__title">Pełne wsparcie</h3>
+        <p class="feature__desc">Pomożemy w każdym kroku — od pierwszej jazdy po stały pensjonat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TWO COLUMN OFFERS ===== -->
+<section class="offers">
+  <div class="container">
+    <div class="offers__grid">
+      <div class="offer-block offer-block--dark reveal">
+        <div class="offer-block__body">
+          <div>
+            <h2 class="offer-block__eyebrow">JAZDY KONNE</h2>
+            <div class="offer-block__divider"></div>
+            <p class="offer-block__desc">Nauka jazdy, jazdy rekreacyjne i wyjazdy w teren.</p>
+            <ul class="offer-list">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M6 10 L9 13 L14 7"/></svg>Dla początkujących i zaawansowanych</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M6 10 L9 13 L14 7"/></svg>Jazdy indywidualne i grupowe</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M6 10 L9 13 L14 7"/></svg>Lonżowanie i praca z ziemi</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M6 10 L9 13 L14 7"/></svg>Wyjazdy w teren</li>
+            </ul>
+          </div>
+          <a href="jazdy-konne.html" class="btn btn--outline-light" style="align-self: flex-start;">
+            Sprawdź ofertę
+            <svg class="arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+            </svg>
+          </a>
+        </div>
+        <div class="offer-block__img">
+          <img src="jazda.jpg" alt="Jazda konna" loading="lazy">
+        </div>
+      </div>
+
+      <div class="offer-block offer-block--light reveal">
+        <div class="offer-block__body">
+          <div>
+            <h2 class="offer-block__eyebrow">PENSJONAT DLA KONI</h2>
+            <div class="offer-block__divider"></div>
+            <p class="offer-block__desc">Zapewniamy Twojemu koniowi dom pełen troski.</p>
+            <ul class="offer-list">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M6 10 L9 13 L14 7"/></svg>Przestronne boksy</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M6 10 L9 13 L14 7"/></svg>Codzienna opieka i karmienie</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M6 10 L9 13 L14 7"/></svg>Padoki i wybiegi</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M6 10 L9 13 L14 7"/></svg>Trening i opieka weterynaryjna</li>
+            </ul>
+          </div>
+          <a href="pensjonat.html" class="btn btn--ghost-dark" style="align-self: flex-start;">
+            Dowiedz się więcej
+            <svg class="arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+            </svg>
+          </a>
+        </div>
+        <div class="offer-block__img">
+          <img src="stajnia.jpg" alt="Pensjonat dla koni" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT / GALLERY PREVIEW ===== -->
+<section class="about" id="o-nas">
+  <div class="container">
+    <div class="about__grid">
+      <div class="about__text">
+        <div class="about__eyebrow">— Nasza stadnina</div>
+        <h2 class="about__title">Miejsce, do którego chce się wracać</h2>
+        <p class="about__desc">Zadbane tereny, przyjazna atmosfera i konie, które pokochasz.</p>
+        <a href="galeria.html" class="btn btn--outline-copper">
+          Zobacz galerię
+          <svg class="arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="about__gallery">
+        <a href="galeria.html" aria-label="Zobacz galerię - zdjęcie 1"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80" alt="Widok na stadninę z lotu ptaka" loading="lazy"></a>
+        <a href="galeria.html" aria-label="Zobacz galerię - zdjęcie 2"><img src="https://images.unsplash.com/photo-1566251037378-5e04e3bec343?auto=format&fit=crop&w=600&q=80" alt="Jeźdźcy o zachodzie słońca" loading="lazy"></a>
+        <a href="galeria.html" aria-label="Zobacz galerię - zdjęcie 3"><img src="https://images.unsplash.com/photo-1534773728080-33d31da27ae5?auto=format&fit=crop&w=600&q=80" alt="Portret konia" loading="lazy"></a>
+        <a href="galeria.html" aria-label="Zobacz galerię - zdjęcie 4"><img src="https://images.unsplash.com/photo-1576692192914-9abed71b3ef9?auto=format&fit=crop&w=600&q=80" alt="Wnętrze stadniny" loading="lazy"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testimonials__head">
+      <h2 class="testimonials__title">Co mówią nasi klienci</h2>
+    </div>
+
+    <div class="testimonials__slider">
+      <button class="slider-arrow slider-arrow--prev" id="testPrev" aria-label="Poprzedni">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L4 8 L10 14"/></svg>
+      </button>
+
+      <div class="testimonials__track" id="testTrack">
+        <div class="testimonial is-active">
+          <div class="testimonial__quote-mark">"</div>
+          <p class="testimonial__text">Cudowne miejsce, wspaniali ludzie i konie. Dzięki nim spełniłam swoje marzenie o jeździectwie!</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">
+              <img src="osoba1.jpg" alt="osoba">
+            </div>
+            <span class="testimonial__name">Ania</span>
+          </div>
+        </div>
+        <div class="testimonial is-active">
+          <div class="testimonial__quote-mark">"</div>
+          <p class="testimonial__text">Konie są w świetnej kondycji, a opieka na najwyższym poziomie. Polecam pensjonat z całego serca.</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">
+              <img src="osoba2.jpg" alt="osoba">
+            </div>
+            <span class="testimonial__name">Paweł</span>
+          </div>
+        </div>
+        <div class="testimonial is-active">
+          <div class="testimonial__quote-mark">"</div>
+          <p class="testimonial__text">Jazdy w terenie to czysta przyjemność! Przepiękne widoki i niezapomniane chwile.</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">
+              <img src="osoba4.jpg" alt="osoba">
+            </div>
+            <span class="testimonial__name">Kasia</span>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial__quote-mark">"</div>
+          <p class="testimonial__text">Profesjonalne podejście do każdego klienta. Mój syn uwielbia tu przyjeżdżać i widać u niego ogromne postępy.</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">
+            <img src="osoba3.jpg" alt="osoba">
+            </div>
+            <span class="testimonial__name">Marta</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="slider-arrow slider-arrow--next" id="testNext" aria-label="Następny">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 L12 8 L6 14"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT BANNER ===== -->
+<section class="contact-banner" id="kontakt">
+  <div class="container">
+    <div class="contact-banner__grid">
+      <div>
+        <h3 class="contact-col__title">Skontaktuj się z nami</h3>
+        <a href="tel:+48123456789" class="contact-row">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 4.5C3 12 8 17 15.5 17 L17.5 15 L14 12 L12 14 C10 13 7 10 6 8 L8 6 L5 2.5 L3 2.5 C3 3 3 3.5 3 4.5Z"/>
+          </svg>
+          <span>+48 123 456 789</span>
+        </a>
+        <a href="mailto:kontakt@stajniapoddebami.pl" class="contact-row">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="16" height="12" rx="1"/>
+            <path d="M2 6 L10 11 L18 6"/>
+          </svg>
+          <span>kontakt@stajniapoddebami.pl</span>
+        </a>
+        <div class="contact-row">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 18 C10 18 3 12 3 7.5 C3 4 6 1.5 10 1.5 C14 1.5 17 4 17 7.5 C17 12 10 18 10 18Z"/>
+            <circle cx="10" cy="7.5" r="2.5"/>
+          </svg>
+          <span>ul. Leśna 15, 05-080 Klaudyn</span>
+        </div>
+      </div>
+
+      <div>
+        <svg class="info-col__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="16" rx="1"/>
+          <path d="M3 9 H21 M8 3 V7 M16 3 V7"/>
+        </svg>
+        <h4 class="info-col__title">Rezerwacja jazd</h4>
+        <p class="info-col__desc">Zarezerwuj termin online lub telefonicznie.</p>
+        <a href="jazdy-konne.html" class="info-col__link">
+          Zarezerwuj
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8 H13 M9 4 L13 8 L9 12"/></svg>
+        </a>
+      </div>
+
+      <div>
+        <svg class="info-col__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12 C21 16 16 19 12 19 L8 22 V19 C5 18 3 15 3 12 C3 7 7 4 12 4 C17 4 21 7 21 12Z"/>
+        </svg>
+        <h4 class="info-col__title">Masz pytania?</h4>
+        <p class="info-col__desc">Chętnie odpowiemy na wszystkie pytania.</p>
+        <a href="mailto:kontakt@stajniapoddebami.pl" class="info-col__link">
+          Napisz do nas
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8 H13 M9 4 L13 8 L9 12"/></svg>
+        </a>
+      </div>
+
+      <div>
+        <svg class="info-col__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22 C12 22 4 14 4 9 C4 4.6 7.6 1 12 1 C16.4 1 20 4.6 20 9 C20 14 12 22 12 22Z"/>
+          <circle cx="12" cy="9" r="3"/>
+        </svg>
+        <h4 class="info-col__title">Jak do nas trafić?</h4>
+        <p class="info-col__desc">Zobacz mapę i wskazówki dojazdu.</p>
+        <a href="#" class="info-col__link">
+          Zobacz trasę
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8 H13 M9 4 L13 8 L9 12"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="logo" class="logo__icon">
+        <span class="logo__text">
+          <span class="logo__name">STADNINA</span>
+          <span class="logo__tag">POD DĘBAMI</span>
+        </span>
+      </a>
+
+      <ul class="footer__nav">
+        <li><a href="index.html">Strona główna</a></li>
+        <li><a href="#o-nas">O nas</a></li>
+        <li><a href="jazdy-konne.html">Jazdy konne</a></li>
+        <li><a href="pensjonat.html">Pensjonat dla koni</a></li>
+        <li><a href="galeria.html">Galeria</a></li>
+        <li><a href="jazdy-konne.html">Cennik</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+
+      <div class="footer__socials">
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.86.24-1.45 1.48-1.45H16.5V4.45C16.2 4.4 15.3 4.3 14.3 4.3c-2.1 0-3.55 1.28-3.55 3.63V10.5H8.2v3h2.55V21h2.75z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('navMenu');
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      toggle.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Testimonials slider (mobile shows one at a time, desktop shows 3)
+  const testimonials = document.querySelectorAll('.testimonial');
+  const prevBtn = document.getElementById('testPrev');
+  const nextBtn = document.getElementById('testNext');
+  let currentIdx = 0;
+
+  function isMobile() { return window.matchMedia('(max-width: 1024px)').matches; }
+
+  function showTestimonial(idx) {
+    if (isMobile()) {
+      testimonials.forEach((t, i) => t.classList.toggle('is-active', i === idx));
+    } else {
+      // On desktop slide forward by groups of 3
+      testimonials.forEach((t, i) => {
+        const groupStart = Math.floor(idx / 3) * 3;
+        t.classList.toggle('is-active', i >= groupStart && i < groupStart + 3);
+      });
+    }
+  }
+
+  prevBtn.addEventListener('click', () => {
+    const step = isMobile() ? 1 : 3;
+    currentIdx = (currentIdx - step + testimonials.length) % testimonials.length;
+    showTestimonial(currentIdx);
+  });
+  nextBtn.addEventListener('click', () => {
+    const step = isMobile() ? 1 : 3;
+    currentIdx = (currentIdx + step) % testimonials.length;
+    showTestimonial(currentIdx);
+  });
+
+  window.addEventListener('resize', () => showTestimonial(currentIdx));
+
+  // Inicjalizacja
+  showTestimonial(0);
+</script>
+
+</body>
+</html>
