@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barber & Wolf — Barbershop Poznań</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130F;
+    --panel:#1E1B16;
+    --panel-2:#242017;
+    --gold:#C9A24A;
+    --gold-bright:#E0BE6F;
+    --bone:#EDE7DE;
+    --bone-dim:#B7AC98;
+    --rust:#9C5734;
+    --line:#3A3327;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--ink);
+    color:var(--bone);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  img, svg{display:block; max-width:100%;}
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    line-height:1.15;
+    letter-spacing:-0.01em;
+  }
+
+  .em{font-style:italic; font-weight:500; color:var(--gold-bright);}
+
+  .label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  :focus-visible{
+    outline:2px solid var(--gold-bright);
+    outline-offset:3px;
+  }
+
+  /* ---------- Stripe divider — the signature element ---------- */
+  .pole-divider{
+    height:14px;
+    width:100%;
+    background:repeating-linear-gradient(
+      -45deg,
+      var(--gold) 0px, var(--gold) 22px,
+      var(--ink) 22px, var(--ink) 44px
+    );
+    background-size:200% 100%;
+    animation:pole-scroll 14s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .pole-divider{animation:none;}
+  }
+  @keyframes pole-scroll{
+    from{background-position:0 0;}
+    to{background-position:-400px 0;}
+  }
+
+  /* ---------- Nav ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(21,19,15,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 32px;
+    max-width:1120px;
+    margin:0 auto;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-size:21px;
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+  .logo span{color:var(--gold-bright); font-style:italic;}
+  .nav-links{
+    display:flex;
+    gap:32px;
+    font-size:14px;
+    color:var(--bone-dim);
+  }
+  .nav-links a:hover{color:var(--gold-bright);}
+  .nav-cta{
+    border:1px solid var(--gold);
+    color:var(--gold-bright);
+    font-size:13px;
+    padding:9px 20px;
+    border-radius:2px;
+    transition:background 0.2s;
+  }
+  .nav-cta:hover{background:rgba(201,162,74,0.1);}
+  .nav-toggle{display:none;}
+
+  @media (max-width:760px){
+    .nav-links{
+      position:fixed;
+      top:73px; left:0; right:0;
+      flex-direction:column;
+      background:var(--panel);
+      padding:24px 32px;
+      gap:18px;
+      border-bottom:1px solid var(--line);
+      transform:translateY(-110%);
+      transition:transform 0.25s ease;
+    }
+    .nav-links.open{transform:translateY(0);}
+    .nav-toggle{
+      display:block;
+      background:none;
+      border:none;
+      color:var(--bone);
+      font-size:22px;
+      cursor:pointer;
+    }
+    .nav-cta{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:96px 32px 80px;
+    max-width:1120px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:56px;
+    align-items:center;
+  }
+  .hero .label{margin-bottom:18px; display:block;}
+  .hero h1{
+    font-size:clamp(40px, 5.5vw, 64px);
+    margin-bottom:22px;
+  }
+  .hero p{
+    color:var(--bone-dim);
+    font-size:17px;
+    max-width:420px;
+    margin-bottom:30px;
+  }
+  .btn-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--gold);
+    color:#211A0C;
+    font-weight:500;
+    font-size:14px;
+    padding:14px 28px;
+    border-radius:2px;
+    display:inline-block;
+    transition:background 0.2s;
+  }
+  .btn-primary:hover{background:var(--gold-bright);}
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--bone-dim);
+    font-size:14px;
+    padding:14px 24px;
+    border-radius:2px;
+    transition:border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover{border-color:var(--gold); color:var(--gold-bright);}
+
+  .hero-visual{
+    aspect-ratio:4/5;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:4px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .hero-visual::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:repeating-linear-gradient(115deg, transparent 0 38px, rgba(201,162,74,0.06) 38px 40px);
+  }
+  .hero-visual .mark{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:120px;
+    color:var(--gold);
+    opacity:0.9;
+    position:relative;
+  }
+  .hero-visual .cap{
+    position:absolute;
+    bottom:26px;
+    left:26px;
+    right:26px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    color:var(--bone-dim);
+    text-transform:uppercase;
+    display:flex;
+    justify-content:space-between;
+    border-top:1px solid var(--line);
+    padding-top:12px;
+  }
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr; padding-top:56px;}
+    .hero-visual{aspect-ratio:16/10;}
+  }
+
+  /* ---------- Section shell ---------- */
+  section{padding:88px 32px;}
+  .section-head{
+    max-width:560px;
+    margin-bottom:52px;
+  }
+  .section-head .label{margin-bottom:14px; display:block;}
+  .section-head h2{font-size:clamp(28px,3.4vw,40px);}
+
+  /* ---------- Services: ticket cards ---------- */
+  .tickets{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .ticket{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:28px 26px 24px;
+    position:relative;
+  }
+  .ticket::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:66px;
+    height:0;
+    border-top:1px dashed var(--line);
+  }
+  .ticket-no{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--gold);
+    margin-bottom:14px;
+    display:block;
+  }
+  .ticket h3{
+    font-size:21px;
+    margin-bottom:8px;
+    font-weight:600;
+  }
+  .ticket p{
+    color:var(--bone-dim);
+    font-size:14px;
+    margin-bottom:34px;
+  }
+  .ticket .price{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:22px;
+    letter-spacing:0.01em;
+    color:var(--bone);
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+  }
+  .ticket .price span{
+    font-size:12px;
+    font-weight:400;
+    color:var(--bone-dim);
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0;
+  }
+
+  @media (max-width:860px){
+    .tickets{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Team ---------- */
+  .team{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:22px;
+  }
+  .barber-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+  }
+.barber-photo{
+  aspect-ratio:3/4;
+  background:var(--panel-2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+.barber-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+  .barber-photo svg{width:44%; opacity:0.55;}
+  .barber-info{padding:16px 18px 20px;}
+  .barber-info h3{font-size:17px; margin-bottom:4px; font-weight:600;}
+  .barber-info .role{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+
+  @media (max-width:860px){
+    .team{grid-template-columns:repeat(2,1fr);}
+  }
+
+  /* ---------- Gallery ---------- */
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows:repeat(2, 160px);
+    gap:14px;
+  }
+  .g-cell{
+    border-radius:4px;
+    border:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .g-cell.a{grid-column:span 2; grid-row:span 2; background:repeating-linear-gradient(45deg, var(--panel) 0 16px, var(--panel-2) 16px 32px);}
+  .g-cell.b{background:var(--panel); background-image:radial-gradient(circle at 30% 30%, rgba(201,162,74,0.12), transparent 60%);}
+  .g-cell.c{background:var(--panel-2);}
+  .g-cell.d{grid-column:span 2; background:repeating-linear-gradient(-45deg, var(--panel) 0 14px, var(--panel-2) 14px 28px);}
+  .g-cell.e{background:var(--panel);}
+.g-cell .g-icon{
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold);
+}
+.g-cell .g-icon svg{opacity:0.5;}
+.g-cell img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+  @media (max-width:860px){
+    .gallery{grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(3,140px);}
+    .g-cell.a{grid-column:span 2; grid-row:span 1;}
+    .g-cell.d{grid-column:span 1;}
+  }
+
+  /* ---------- Testimonial ---------- */
+  .testimonial{
+    background:var(--panel);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:80px 32px;
+    text-align:center;
+  }
+  .testimonial blockquote{
+    max-width:680px;
+    margin:0 auto 22px;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(22px, 2.6vw, 30px);
+    color:var(--bone);
+  }
+  .testimonial cite{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+
+  /* ---------- Booking band ---------- */
+  .booking{
+    background:var(--gold);
+    color:#211A0C;
+    padding:64px 32px;
+  }
+  .booking .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:24px;
+  }
+  .booking h2{font-size:clamp(26px,3vw,34px); color:#211A0C;}
+  .booking .btn-primary{
+    background:#211A0C;
+    color:var(--gold-bright);
+  }
+  .booking .btn-primary:hover{background:#332711;}
+
+  /* ---------- Footer ---------- */
+  footer{padding:64px 32px 40px;}
+  .foot-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr;
+    gap:40px;
+    margin-bottom:48px;
+  }
+  footer h4{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:16px;
+  }
+  footer p, footer a{
+    color:var(--bone-dim);
+    font-size:14px;
+    line-height:1.9;
+    display:block;
+  }
+  footer a:hover{color:var(--gold-bright);}
+  .foot-bottom{
+    border-top:1px solid var(--line);
+    padding-top:24px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:12px;
+    color:var(--bone-dim);
+  }
+
+  @media (max-width:760px){
+    .foot-grid{grid-template-columns:1fr; gap:32px;}
+    section{padding:64px 24px;}
+    .hero{padding:56px 24px 64px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">Barber<span>&amp;</span>Wolf</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Otwórz menu" aria-expanded="false">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#uslugi">Usługi</a>
+      <a href="#zespol">Barberzy</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#kontakt">Kontakt</a>
+    </div>
+    <a class="nav-cta" href="#kontakt">Zarezerwuj wizytę</a>
+  </nav>
+</header>
+
+
+<main>
+  <section class="hero" id="home">
+    <div>
+      <span class="label">Barbershop · Poznań, ul. Rzemieślnicza 12</span>
+      <h1>Klasyczne strzyżenie.<br>Bez <span class="em">kompromisów</span>.</h1>
+      <p>Rzemieślnicze fryzury, golenie brzytwą i pielęgnacja brody w klimacie starej szkoły. Bez pośpiechu, bez maszynowej produkcji — tylko dobra robota.</p>
+      <div class="btn-row">
+        <a class="btn-primary" href="#kontakt">Umów termin</a>
+        <a class="btn-ghost" href="#uslugi">Zobacz cennik</a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <img src="front.png" alt="">
+      <div class="cap"><span>Est. 2016</span><span>Poznań</span></div>
+    </div>
+  </section>
+
+  <section id="uslugi">
+    <div class="section-head">
+      <span class="label">Cennik / bilet usługowy</span>
+      <h2>Trzy fotele, jeden standard</h2>
+    </div>
+    <div class="tickets">
+      <div class="ticket">
+        <span class="ticket-no">NR 01 / STRZYŻENIE</span>
+        <h3>Strzyżenie klasyczne</h3>
+        <p>Konsultacja, strzyżenie nożyczkami i maszynką, mycie, stylizacja.</p>
+        <div class="price">70 zł <span>ok. 40 min</span></div>
+      </div>
+      <div class="ticket">
+        <span class="ticket-no">NR 02 / GOLENIE</span>
+        <h3>Golenie brzytwą</h3>
+        <p>Gorący ręcznik, pianka na gorąco, golenie na styk, balsam kojący.</p>
+        <div class="price">60 zł <span>ok. 30 min</span></div>
+      </div>
+      <div class="ticket">
+        <span class="ticket-no">NR 03 / BRODA</span>
+        <h3>Stylizacja brody</h3>
+        <p>Modelowanie konturu, przycięcie długości, olejek do brody.</p>
+        <div class="price">45 zł <span>ok. 25 min</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="zespol">
+    <div class="section-head">
+      <span class="label">Zespół</span>
+      <h2>Barberzy, którym powierzysz włosy</h2>
+    </div>
+    <div class="team">
+      <div class="barber-card">
+        <div class="barber-photo">
+          <img src="1.png" alt="">
+        </div>
+        <div class="barber-info"><h3>Tomasz Wilk</h3><span class="role">Master barber</span></div>
+      </div>
+      <div class="barber-card">
+        <div class="barber-photo">
+          <img src="2.png" alt="">
+        </div>
+        <div class="barber-info"><h3>Marek Nowicki</h3><span class="role">Specjalista golenia</span></div>
+      </div>
+      <div class="barber-card">
+        <div class="barber-photo">
+          <img src="3.png" alt="">
+        </div>
+        <div class="barber-info"><h3>Igor Zalewski</h3><span class="role">Stylista brody</span></div>
+      </div>
+      <div class="barber-card">
+        <div class="barber-photo">
+          <img src="4.png" alt="">
+        </div>
+        <div class="barber-info"><h3>Bartek Sosna</h3><span class="role">Barber juniorski</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <div class="section-head">
+      <span class="label">Galeria</span>
+      <h2>Klimat, który mówi sam za siebie</h2>
+    </div>
+    <div class="gallery">
+      <div class="g-cell a"><div class="g-icon"><img src="2-1.png" alt=""></div></div>
+      <div class="g-cell b"><div class="g-icon"><img src="2-2.png" alt=""></div></div>
+      <div class="g-cell c"><div class="g-icon"><img src="2-3.png" alt=""></div></div>
+      <div class="g-cell d"><div class="g-icon"><img src="2-4.png" alt=""></div></div>
+      <div class="g-cell e"><div class="g-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 12h18"/></svg></div></div>
+    </div>
+  </section>
+
+  <div class="testimonial">
+    <blockquote>„Pierwszy raz od lat wyszedłem z salonu bez potrzeby poprawiania czegokolwiek w domu. Fotel, brzytwa, cisza — tak powinno wyglądać strzyżenie.”</blockquote>
+    <cite>— Paweł K., klient od 2019</cite>
+  </div>
+
+  <section class="booking" id="kontakt">
+    <div class="wrap">
+      <div>
+        <h2>Fotel czeka. Zarezerwuj swój termin.</h2>
+      </div>
+      <a class="btn-primary" href="tel:+48600000000">Zadzwoń: 600 000 000</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>Barber &amp; Wolf</h4>
+        <p>ul. Rzemieślnicza 12<br>61-001 Poznań</p>
+        <p>pon–pt 10:00–20:00<br>sob 9:00–15:00</p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <a href="tel:+48600000000">600 000 000</a>
+        <a href="mailto:kontakt@barberandwolf.pl">kontakt@barberandwolf.pl</a>
+      </div>
+      <div>
+        <h4>Social</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Barber &amp; Wolf</span>
+      <span>Projekt i wykonanie strony na zamówienie</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+</body>
+</html>
